@@ -1,0 +1,352 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:wght@400;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Hogwarts magical color palette - more authentic */
+    --background: 210 30% 6%;
+    --foreground: 210 10% 92%;
+    
+    --card: 210 25% 9%;
+    --card-foreground: 210 10% 92%;
+    
+    --popover: 210 25% 9%;
+    --popover-foreground: 210 10% 92%;
+    
+    /* More muted golden accent instead of bright yellow */
+    --primary: 38 70% 55%; /* Warmer, less bright gold */
+    --primary-foreground: 210 30% 6%;
+    
+    --secondary: 210 20% 12%;
+    --secondary-foreground: 210 10% 92%;
+    
+    --muted: 210 15% 15%;
+    --muted-foreground: 210 10% 70%;
+    
+    --accent: 38 60% 50%;
+    --accent-foreground: 210 30% 6%;
+    
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 210 10% 92%;
+    
+    --border: 210 20% 18%;
+    --input: 210 25% 12%;
+    --ring: 38 70% 55%;
+    
+    --radius: 0.75rem;
+    
+    /* Authentic House Colors */
+    --gryffindor: 0 70% 45%; /* Deep Crimson */
+    --gryffindor-gold: 38 80% 50%;
+    --gryffindor-light: 0 60% 55%;
+    
+    --slytherin: 120 40% 20%; /* Forest Green */
+    --slytherin-silver: 210 5% 70%;
+    --slytherin-light: 120 35% 25%;
+    
+    --ravenclaw: 220 70% 35%; /* Deep Blue */
+    --ravenclaw-bronze: 30 40% 40%;
+    --ravenclaw-light: 220 60% 45%;
+    
+    --hufflepuff: 45 80% 45%; /* Muted Yellow */
+    --hufflepuff-black: 210 15% 8%;
+    --hufflepuff-light: 45 70% 55%;
+    
+    /* Sophisticated gradients */
+    --gradient-magical: linear-gradient(135deg, hsl(38 70% 55%), hsl(30 60% 50%), hsl(210 20% 25%));
+    --gradient-gryffindor: linear-gradient(135deg, hsl(0 70% 45%), hsl(38 80% 50%));
+    --gradient-slytherin: linear-gradient(135deg, hsl(120 40% 20%), hsl(210 5% 70%));
+    --gradient-ravenclaw: linear-gradient(135deg, hsl(220 70% 35%), hsl(30 40% 40%));
+    --gradient-hufflepuff: linear-gradient(135deg, hsl(45 80% 45%), hsl(210 15% 8%));
+    
+    /* Subtle magical effects */
+    --shadow-glow: 0 0 25px hsl(38 70% 55% / 0.2);
+    --shadow-magical: 0 8px 32px hsl(38 70% 55% / 0.15);
+    
+    --sidebar-background: 220 25% 10%;
+    --sidebar-foreground: 48 100% 95%;
+    --sidebar-primary: 48 100% 50%;
+    --sidebar-primary-foreground: 220 25% 8%;
+    --sidebar-accent: 220 25% 15%;
+    --sidebar-accent-foreground: 48 100% 95%;
+    --sidebar-border: 220 25% 20%;
+    --sidebar-ring: 48 100% 50%;
+  }
+
+  .dark {
+    /* Dark theme - current colors */
+    --background: 210 30% 6%;
+    --foreground: 210 10% 92%;
+    --card: 210 25% 9%;
+    --card-foreground: 210 10% 92%;
+    --popover: 210 25% 9%;
+    --popover-foreground: 210 10% 92%;
+    --primary: 38 70% 55%;
+    --primary-foreground: 210 30% 6%;
+    --secondary: 210 20% 12%;
+    --secondary-foreground: 210 10% 92%;
+    --muted: 210 15% 15%;
+    --muted-foreground: 210 10% 70%;
+    --accent: 38 60% 50%;
+    --accent-foreground: 210 30% 6%;
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 210 10% 92%;
+    --border: 210 20% 18%;
+    --input: 210 25% 12%;
+    --ring: 38 70% 55%;
+    --sidebar-background: 210 25% 10%;
+    --sidebar-foreground: 210 10% 92%;
+    --sidebar-primary: 38 70% 55%;
+    --sidebar-primary-foreground: 210 30% 6%;
+    --sidebar-accent: 210 20% 15%;
+    --sidebar-accent-foreground: 210 10% 92%;
+    --sidebar-border: 210 20% 18%;
+    --sidebar-ring: 38 70% 55%;
+  }
+
+  .light {
+    /* Light theme - readable on light backgrounds */
+    --background: 210 20% 98%;
+    --foreground: 210 30% 8%;
+    --card: 210 20% 96%;
+    --card-foreground: 210 30% 8%;
+    --popover: 210 20% 96%;
+    --popover-foreground: 210 30% 8%;
+    --primary: 38 70% 45%;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 210 10% 90%;
+    --secondary-foreground: 210 30% 8%;
+    --muted: 210 10% 92%;
+    --muted-foreground: 210 20% 45%;
+    --accent: 38 60% 50%;
+    --accent-foreground: 210 20% 98%;
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 210 20% 85%;
+    --input: 210 20% 96%;
+    --ring: 38 70% 45%;
+    --sidebar-background: 210 20% 96%;
+    --sidebar-foreground: 210 30% 8%;
+    --sidebar-primary: 38 70% 45%;
+    --sidebar-primary-foreground: 210 20% 98%;
+    --sidebar-accent: 210 10% 90%;
+    --sidebar-accent-foreground: 210 30% 8%;
+    --sidebar-border: 210 20% 85%;
+    --sidebar-ring: 38 70% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  /* Accessibility improvements */
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary;
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    :root {
+      --primary: 45 100% 50%;
+      --border: 210 50% 50%;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    @apply bg-background text-foreground font-body;
+    min-height: 100vh;
+  }
+
+  /* Dark emerald gradient for dark theme */
+  .dark body {
+    background: linear-gradient(135deg, 
+      hsl(var(--background)) 0%,
+      hsl(155 60% 8%) 25%,
+      hsl(145 70% 6%) 50%,
+      hsl(135 80% 4%) 75%,
+      hsl(var(--background)) 100%
+    );
+    background-attachment: fixed;
+  }
+
+  /* Light theme gradient */
+  .light body {
+    background: linear-gradient(135deg, 
+      hsl(var(--background)) 0%,
+      hsl(38 20% 96%) 25%,
+      hsl(210 20% 98%) 50%,
+      hsl(38 15% 94%) 75%,
+      hsl(var(--background)) 100%
+    );
+    background-attachment: fixed;
+  }
+  
+  .font-magical {
+    font-family: 'Cinzel', serif;
+  }
+  
+  .font-body {
+    font-family: 'Crimson Text', serif;
+  }
+}
+
+@layer components {
+  /* Enhanced magical animations */
+  .reveal-animation {
+    animation: magicalReveal 2s ease-out forwards;
+  }
+  
+  .house-crest-reveal {
+    animation: crestReveal 1.5s ease-out 0.5s forwards;
+    opacity: 0;
+    transform: scale(0.5) rotateY(180deg);
+  }
+  
+  .traits-reveal {
+    animation: traitsReveal 0.8s ease-out forwards;
+  }
+  
+  @keyframes magicalReveal {
+    0% { opacity: 0; transform: translateY(50px) scale(0.9); }
+    50% { opacity: 0.5; transform: translateY(25px) scale(0.95); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  
+  @keyframes crestReveal {
+    0% { opacity: 0; transform: scale(0.5) rotateY(180deg); }
+    60% { opacity: 0.8; transform: scale(1.1) rotateY(0deg); }
+    100% { opacity: 1; transform: scale(1) rotateY(0deg); }
+  }
+  
+  @keyframes traitsReveal {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Magical button styles */
+  .btn-magical {
+    @apply relative overflow-hidden bg-gradient-to-r from-primary to-accent text-primary-foreground 
+           font-magical font-semibold px-8 py-4 rounded-xl border-2 border-primary/20
+           transition-all duration-300 transform hover:scale-105 
+           hover:shadow-[0_0_25px_hsl(var(--primary)_/_0.25)]
+           before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent 
+           before:via-white/15 before:to-transparent before:translate-x-[-200%] 
+           hover:before:translate-x-[200%] before:transition-transform before:duration-700;
+  }
+  
+  .btn-house-gryffindor {
+    @apply bg-gradient-to-br from-gryffindor to-gryffindor-gold text-white border-gryffindor/30
+           hover:shadow-[0_0_25px_hsl(var(--gryffindor)_/_0.4)] hover:border-gryffindor/50;
+  }
+  
+  .btn-house-slytherin {
+    @apply bg-gradient-to-br from-slytherin to-slytherin-silver text-white border-slytherin/30
+           hover:shadow-[0_0_25px_hsl(var(--slytherin)_/_0.4)] hover:border-slytherin/50;
+  }
+  
+  .btn-house-ravenclaw {
+    @apply bg-gradient-to-br from-ravenclaw to-ravenclaw-bronze text-white border-ravenclaw/30
+           hover:shadow-[0_0_25px_hsl(var(--ravenclaw)_/_0.4)] hover:border-ravenclaw/50;
+  }
+  
+  .btn-house-hufflepuff {
+    @apply bg-gradient-to-br from-hufflepuff to-hufflepuff-black text-white border-hufflepuff/30
+           hover:shadow-[0_0_25px_hsl(var(--hufflepuff)_/_0.4)] hover:border-hufflepuff/50;
+  }
+  
+  /* Card styles with 3D effects */
+  .card-magical {
+    @apply bg-card/80 backdrop-blur-lg border border-border/50 rounded-2xl p-6 
+           shadow-lg hover:shadow-[0_20px_60px_hsl(var(--primary)_/_0.15)] 
+           transition-all duration-500 hover:border-primary/30
+           transform-gpu hover:-translate-y-2;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+  }
+  
+  .card-magical:hover {
+    transform: translateY(-8px) rotateX(2deg);
+  }
+  
+  /* 3D floating animation */
+  .float {
+    animation: float3d 4s ease-in-out infinite;
+    transform-style: preserve-3d;
+  }
+  
+  @keyframes float3d {
+    0%, 100% { 
+      transform: translateY(0px) rotateX(0deg) rotateY(0deg); 
+    }
+    33% { 
+      transform: translateY(-8px) rotateX(2deg) rotateY(1deg); 
+    }
+    66% { 
+      transform: translateY(-12px) rotateX(-1deg) rotateY(-2deg); 
+    }
+  }
+  
+  /* Sparkle effect */
+  .sparkle {
+    position: relative;
+  }
+  
+  .sparkle::before {
+    content: '✨';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    animation: sparkle 2s ease-in-out infinite;
+  }
+  
+  @keyframes sparkle {
+    0%, 100% { opacity: 0; transform: scale(0.5) rotate(0deg); }
+    50% { opacity: 1; transform: scale(1) rotate(180deg); }
+  }
+
+  /* Mobile-first responsive improvements */
+  .card-magical {
+    @apply p-4 md:p-6;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Better focus indicators for keyboard navigation */
+  button:focus-visible,
+  [role="button"]:focus-visible {
+    @apply ring-2 ring-primary ring-offset-2;
+  }
+
+  /* Print styles */
+  @media print {
+    .no-print {
+      display: none;
+    }
+    
+    body {
+      background: white !important;
+      color: black !important;
+    }
+  }
+}
