@@ -9,7 +9,6 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
 
   const { password } = req.body;
 
-  // Compare with secure env variable (set in Vercel dashboard)
   if (password === process.env.ADMIN_PASSWORD) {
     const token = jwt.sign({ role: "admin" }, process.env.JWT_SECRET!, {
       expiresIn: "2h",
