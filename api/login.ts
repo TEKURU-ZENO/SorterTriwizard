@@ -8,7 +8,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const { password } = req.body;
-
+  console.log(password, process.env.ADMIN_PASSWORD)
   if (password === process.env.ADMIN_PASSWORD) {
     const token = jwt.sign({ role: "admin" }, process.env.JWT_SECRET!, {
       expiresIn: "2h",
@@ -18,3 +18,4 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(401).json({ error: "Invalid password" });
   }
 }
+
