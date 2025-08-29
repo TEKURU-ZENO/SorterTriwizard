@@ -68,77 +68,129 @@ export const ShareButton = ({ house, playerName, className }: ShareButtonProps) 
     canvas.width = 1200;
     canvas.height = 900;
 
-    const template = new Image();
-    template.src = "/assets/certificatesorter.jpg"; // certificate template
-
-    const crestImages: Record<string, string> = {
-      gryffindor: "/assets/gryffindor.png",
-      slytherin: "/assets/slytherin.png",
-      ravenclaw: "/assets/ravenclaw.png",
-      hufflepuff: "/assets/hufflepuff.png",
+    // House colors for background gradients
+    const houseColors: Record<string, { primary: string; secondary: string; text: string }> = {
+      gryffindor: { primary: "#740001", secondary: "#ffc500", text: "#ffffff" },
+      slytherin: { primary: "#1a472a", secondary: "#aaaaaa", text: "#ffffff" },
+      ravenclaw: { primary: "#0e1a40", secondary: "#946b2d", text: "#ffffff" },
+      hufflepuff: { primary: "#ecb939", secondary: "#000000", text: "#000000" }
     };
+
+    const currentHouse = houseColors[house.toLowerCase()] || houseColors.gryffindor;
+
+    // Create background gradient
+    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    gradient.addColorStop(0, currentHouse.primary);
+    gradient.addColorStop(1, currentHouse.secondary);
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Add decorative border
+    ctx.strokeStyle = "#d4af37";
+    ctx.lineWidth = 10;
+    ctx.strokeRect(50, 50, canvas.width - 100, canvas.height - 100);
+
+    // Inner border
+    ctx.strokeStyle = currentHouse.primary;
+    ctx.lineWidth = 5;
+    ctx.strokeRect(70, 70, canvas.width - 140, canvas.height - 140);
+
+    // Title
+    ctx.fillStyle = "#d4af37";
+    ctx.font = "bold 48px serif";
+    ctx.textAlign = "center";
+    ctx.fillText("HOGWARTS SCHOOL", canvas.width / 2, 180);
     
-    const crest = new Image();
-    crest.src = crestImages[house.toLowerCase()] || "";
+    ctx.font = "bold 36px serif";
+    ctx.fillText("OF WITCHCRAFT AND WIZARDRY", canvas.width / 2, 230);
+
+    // Decorative line
+    ctx.strokeStyle = "#d4af37";
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(300, 260);
+    ctx.lineTo(900, 260);
+    ctx.stroke();
+
+    // Certificate text
+    ctx.fillStyle = currentHouse.text;
+    ctx.font = "28px serif";
+    ctx.fillText("This is to certify that", canvas.width / 2, 340);
     
-    template.onload = () => {
-      ctx.drawImage(template, 0, 0, canvas.width, canvas.height);
+    // Player name with emphasis
+    ctx.font = "bold 42px serif";
+    ctx.fillStyle = "#d4af37";
+    ctx.fillText(playerName.toUpperCase(), canvas.width / 2, 400);
+    
+    // More certificate text
+    ctx.fillStyle = currentHouse.text;
+    ctx.font = "28px serif";
+    ctx.fillText("has been sorted into", canvas.width / 2, 460);
+    
+    // House name
+    ctx.font = "bold 56px serif";
+    ctx.fillStyle = "#d4af37";
+    ctx.strokeStyle = currentHouse.primary;
+    ctx.lineWidth = 2;
+    ctx.strokeText(house.toUpperCase(), canvas.width / 2, 540);
+    ctx.fillText(house.toUpperCase(), canvas.width / 2, 540);
 
-      // Load crest after template
-      crest.onload = () => {
-        // Draw crest (adjust size & position as needed)
-        const crestSize = 180;
-        ctx.drawImage(
-          crest,
-          canvas.width / 2 - crestSize / 2,
-          250, // y-position (place under title area on certificate)
-          crestSize,
-          crestSize
-        );
-
-        // Title
-        ctx.fillStyle = "#d4af37";
-        ctx.font = "bold 36px serif";
-        ctx.textAlign = "center";
-        ctx.fillText("HOGWARTS SCHOOL", canvas.width / 2, 100);
-        ctx.fillText("OF WITCHCRAFT AND WIZARDRY", canvas.width / 2, 140);
-
-        // Certificate text
-        ctx.fillStyle = "#ffffff";
-        ctx.font = "24px serif";
-        ctx.fillText("This is to certify that", canvas.width / 2, 220);
-        
-        ctx.font = "bold 32px serif";
-        ctx.fillStyle = "#d4af37";
-        ctx.fillText(playerName, canvas.width / 2, 280);
-        
-        ctx.fillStyle = "#ffffff";
-        ctx.font = "24px serif";
-        ctx.fillText("has been sorted into", canvas.width / 2, 340);
-        
-        ctx.font = "bold 48px serif";
-        const houseColors: Record<string, string> = {
-          gryffindor: "#740001",
-          slytherin: "#1a472a",
-          ravenclaw: "#0e1a40",
-          hufflepuff: "#ecb939"
-        };
-        ctx.fillStyle = houseColors[house] || "#d4af37";
-        ctx.fillText(house.toUpperCase(), canvas.width / 2, 420);
-
-        // Download
-        const link = document.createElement("a");
-        link.download = `${playerName}-${house}-certificate.png`;
-        link.href = canvas.toDataURL();
-        link.click();
-
-        toast({
-          title: "Certificate downloaded!",
-          description: "Your magical certificate is ready to share.",
-        });
-        setIsOpen(false);
-      };
+    // Add house motto/description
+    const houseMottos: Record<string, string> = {
+      gryffindor: "Where dwell the brave at heart",
+      slytherin: "Where cunning folk use any means",
+      ravenclaw: "Where those of wit and learning will find their kind",
+      hufflepuff: "Where they are just and loyal"
     };
+
+    ctx.fillStyle = currentHouse.text;
+    ctx.font = "italic 24px serif";
+    ctx.fillText(`"${houseMottos[house.toLowerCase()] || ""}"`, canvas.width / 2, 600);
+
+    // Date
+    const currentDate = new Date().toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+    ctx.font = "20px serif";
+    ctx.fillText(`Sorted on ${currentDate}`, canvas.width / 2, 700);
+
+    // Signature line
+    ctx.strokeStyle = currentHouse.text;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(canvas.width / 2 - 150, 780);
+    ctx.lineTo(canvas.width / 2 + 150, 780);
+    ctx.stroke();
+
+    ctx.font = "18px serif";
+    ctx.fillText("Professor McGonagall", canvas.width / 2, 800);
+    ctx.font = "16px serif";
+    ctx.fillText("Deputy Headmistress", canvas.width / 2, 820);
+
+    // Try to download immediately since we're not using external images
+    try {
+      const link = document.createElement("a");
+      link.download = `${playerName.replace(/[^a-zA-Z0-9]/g, '_')}-${house}-certificate.png`;
+      link.href = canvas.toDataURL("image/png", 1.0);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      toast({
+        title: "Certificate downloaded!",
+        description: "Your magical certificate is ready to share.",
+      });
+    } catch (error) {
+      toast({
+        title: "Download failed",
+        description: "There was an error generating your certificate.",
+        variant: "destructive",
+      });
+    }
+    
+    setIsOpen(false);
   };
 
   return (
