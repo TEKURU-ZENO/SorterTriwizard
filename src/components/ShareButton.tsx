@@ -70,7 +70,7 @@ export const ShareButton = ({ house, playerName, className }: ShareButtonProps) 
     canvas.height = 900;
 
     const template = new Image();
-    template.src = "/assets/certificate-template.png"; // certificate template
+    template.src = "/assets/certificatesorter.jpg"; // certificate template
 
     const crestImages: Record<string, string> = {
       gryffindor: "/assets/gryffindor.png",
@@ -169,4 +169,5 @@ export const ShareButton = ({ house, playerName, className }: ShareButtonProps) 
   </Popover>
 );
 
-};
+
+
