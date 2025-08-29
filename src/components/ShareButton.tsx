@@ -226,7 +226,7 @@ export const ShareButton = ({ house, playerName, className }: ShareButtonProps) 
     };
 
     // Set the source to your background image
-    backgroundImg.src = "/assets/certificatesorter.jpg"; // Adjust path as needed
+    backgroundImg.src = "src/assets/certificatesorter.jpg"; // Adjust path as needed
   };
 
   return (
@@ -260,3 +260,4 @@ export const ShareButton = ({ house, playerName, className }: ShareButtonProps) 
     </Popover>
   );
 };
+
