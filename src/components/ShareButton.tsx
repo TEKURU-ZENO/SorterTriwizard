@@ -6,7 +6,6 @@ import { Share2, Download, Copy, Twitter, Facebook } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 
-
 interface ShareButtonProps {
   house: string;
   playerName: string;
@@ -78,98 +77,98 @@ export const ShareButton = ({ house, playerName, className }: ShareButtonProps) 
       ravenclaw: "/assets/ravenclaw.png",
       hufflepuff: "/assets/hufflepuff.png",
     };
+    
     const crest = new Image();
     crest.src = crestImages[house.toLowerCase()] || "";
+    
     template.onload = () => {
-    ctx.drawImage(template, 0, 0, canvas.width, canvas.height);
+      ctx.drawImage(template, 0, 0, canvas.width, canvas.height);
 
-    // Load crest after template
-    crest.onload = () => {
-      // Draw crest (adjust size & position as needed)
-      const crestSize = 180;
-      ctx.drawImage(
-        crest,
-        canvas.width / 2 - crestSize / 2,
-        250, // y-position (place under title area on certificate)
-        crestSize,
-        crestSize
-      );
+      // Load crest after template
+      crest.onload = () => {
+        // Draw crest (adjust size & position as needed)
+        const crestSize = 180;
+        ctx.drawImage(
+          crest,
+          canvas.width / 2 - crestSize / 2,
+          250, // y-position (place under title area on certificate)
+          crestSize,
+          crestSize
+        );
 
-    // Title
-    ctx.fillStyle = "#d4af37";
-    ctx.font = "bold 36px serif";
-    ctx.textAlign = "center";
-    ctx.fillText("HOGWARTS SCHOOL", 400, 100);
-    ctx.fillText("OF WITCHCRAFT AND WIZARDRY", 400, 140);
+        // Title
+        ctx.fillStyle = "#d4af37";
+        ctx.font = "bold 36px serif";
+        ctx.textAlign = "center";
+        ctx.fillText("HOGWARTS SCHOOL", canvas.width / 2, 100);
+        ctx.fillText("OF WITCHCRAFT AND WIZARDRY", canvas.width / 2, 140);
 
-    // Certificate text
-    ctx.fillStyle = "#ffffff";
-    ctx.font = "24px serif";
-    ctx.fillText("This is to certify that", 400, 220);
-    
-    ctx.font = "bold 32px serif";
-    ctx.fillStyle = "#d4af37";
-    ctx.fillText(playerName, 400, 280);
-    
-    ctx.fillStyle = "#ffffff";
-    ctx.font = "24px serif";
-    ctx.fillText("has been sorted into", 400, 340);
-    
-    ctx.font = "bold 48px serif";
-    const houseColors: Record<string, string> = {
-      gryffindor: "#740001",
-      slytherin: "#1a472a",
-      ravenclaw: "#0e1a40",
-      hufflepuff: "#ecb939"
+        // Certificate text
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "24px serif";
+        ctx.fillText("This is to certify that", canvas.width / 2, 220);
+        
+        ctx.font = "bold 32px serif";
+        ctx.fillStyle = "#d4af37";
+        ctx.fillText(playerName, canvas.width / 2, 280);
+        
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "24px serif";
+        ctx.fillText("has been sorted into", canvas.width / 2, 340);
+        
+        ctx.font = "bold 48px serif";
+        const houseColors: Record<string, string> = {
+          gryffindor: "#740001",
+          slytherin: "#1a472a",
+          ravenclaw: "#0e1a40",
+          hufflepuff: "#ecb939"
+        };
+        ctx.fillStyle = houseColors[house] || "#d4af37";
+        ctx.fillText(house.toUpperCase(), canvas.width / 2, 420);
+
+        // Download
+        const link = document.createElement("a");
+        link.download = `${playerName}-${house}-certificate.png`;
+        link.href = canvas.toDataURL();
+        link.click();
+
+        toast({
+          title: "Certificate downloaded!",
+          description: "Your magical certificate is ready to share.",
+        });
+        setIsOpen(false);
+      };
     };
-    ctx.fillStyle = houseColors[house] || "#d4af37";
-    ctx.fillText(house.toUpperCase(), 400, 420);
-
-    // Download
-    const link = document.createElement("a");
-    link.download = `${playerName}-${house}-certificate.png`;
-    link.href = canvas.toDataURL();
-    link.click();
-
-    toast({
-      title: "Certificate downloaded!",
-      description: "Your magical certificate is ready to share.",
-    });
-    setIsOpen(false);
   };
 
   return (
-  <Popover>
-    <PopoverTrigger asChild>
-      <Button
-        variant="outline"
-        size="lg"
-        className="font-magical"
-      >
-      <Share2 className="w-4 h-4 mr-2" />
-        Share Your Magic
-      </Button>
-    </PopoverTrigger>
-    <PopoverContent className="w-64 bg-card/95 backdrop-blur-sm border border-border/50 z-50">
-      <div className="space-y-2">
-        <Button onClick={() => handleShare("twitter")} variant="ghost" size="sm" className="w-full justify-start font-body">
-          <Twitter className="w-4 h-4 mr-2" /> Share on Twitter
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          size="lg"
+          className={cn("font-magical", className)}
+        >
+          <Share2 className="w-4 h-4 mr-2" />
+          Share Your Magic
         </Button>
-        <Button onClick={() => handleShare("facebook")} variant="ghost" size="sm" className="w-full justify-start font-body">
-          <Facebook className="w-4 h-4 mr-2" /> Share on Facebook
-        </Button>
-        <Button onClick={() => handleShare("copy")} variant="ghost" size="sm" className="w-full justify-start font-body">
-          <Copy className="w-4 h-4 mr-2" /> Copy Link
-        </Button>
-        <Button onClick={() => handleShare("download")} variant="ghost" size="sm" className="w-full justify-start font-body">
-          <Download className="w-4 h-4 mr-2" /> Download Certificate
-        </Button>
-      </div>
-    </PopoverContent>
-  </Popover>
-);
-    };
-
-
-
-
+      </PopoverTrigger>
+      <PopoverContent className="w-64 bg-card/95 backdrop-blur-sm border border-border/50 z-50">
+        <div className="space-y-2">
+          <Button onClick={() => handleShare("twitter")} variant="ghost" size="sm" className="w-full justify-start font-body">
+            <Twitter className="w-4 h-4 mr-2" /> Share on Twitter
+          </Button>
+          <Button onClick={() => handleShare("facebook")} variant="ghost" size="sm" className="w-full justify-start font-body">
+            <Facebook className="w-4 h-4 mr-2" /> Share on Facebook
+          </Button>
+          <Button onClick={() => handleShare("copy")} variant="ghost" size="sm" className="w-full justify-start font-body">
+            <Copy className="w-4 h-4 mr-2" /> Copy Link
+          </Button>
+          <Button onClick={() => handleShare("download")} variant="ghost" size="sm" className="w-full justify-start font-body">
+            <Download className="w-4 h-4 mr-2" /> Download Certificate
+          </Button>
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+};
