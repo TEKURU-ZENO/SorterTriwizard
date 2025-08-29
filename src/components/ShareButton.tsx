@@ -168,6 +168,8 @@ export const ShareButton = ({ house, playerName, className }: ShareButtonProps) 
     </PopoverContent>
   </Popover>
 );
+    };
+
 
 
 
