@@ -89,11 +89,11 @@ export const ShareButton = ({ house, playerName, className }: ShareButtonProps) 
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         // Load medieval/gothic fonts
-        const primaryFont = "bold 48px 'Cinzel', 'Trajan Pro', 'Times New Roman', serif";
-        const secondaryFont = "bold 36px 'Cinzel', 'Trajan Pro', 'Times New Roman', serif";
-        const bodyFont = "28px 'Cinzel', 'Crimson Text', 'Times New Roman', serif";
-        const nameFont = "bold 52px 'Cinzel Decorative', 'Cinzel', 'Times New Roman', serif";
-        const houseFont = "bold 64px 'Cinzel Decorative', 'Cinzel', 'Times New Roman', serif";
+        const primaryFont   = "bold 50px 'Cinzel Decorative', 'Cinzel', 'Times New Roman', serif";
+        const secondaryFont = "bold 36px 'Cinzel', 'Crimson Text', 'Times New Roman', serif";
+        const bodyFont      = "30px 'Crimson Text', 'Cinzel', 'Times New Roman', serif";
+        const nameFont      = "bold 54px 'Cinzel Decorative', 'Cinzel', 'Times New Roman', serif"; 
+        const houseFont     = "bold 68px 'Cinzel Decorative', 'Cinzel', 'Times New Roman', serif";
 
         // Add text shadow function for better readability
         const addTextShadow = (text: string, x: number, y: number, font: string, fillColor: string, shadowColor: string = "rgba(0, 0, 0, 0.8)") => {
@@ -260,5 +260,6 @@ export const ShareButton = ({ house, playerName, className }: ShareButtonProps) 
     </Popover>
   );
 };
+
 
 
