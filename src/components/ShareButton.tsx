@@ -66,17 +66,34 @@ export const ShareButton = ({ house, playerName, className }: ShareButtonProps) 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    canvas.width = 800;
-    canvas.height = 600;
+    canvas.width = 1200;
+    canvas.height = 900;
 
-    // Background gradient
-    const gradient = ctx.createLinearGradient(0, 0, 800, 600);
-    gradient.addColorStop(0, "#1a1a2e");
-    gradient.addColorStop(0.5, "#16213e");
-    gradient.addColorStop(1, "#0f3460");
-    
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, 800, 600);
+    const template = new Image();
+    template.src = "/assets/certificate-template.png"; // certificate template
+
+    const crestImages: Record<string, string> = {
+      gryffindor: "/assets/gryffindor.png",
+      slytherin: "/assets/slytherin.png",
+      ravenclaw: "/assets/ravenclaw.png",
+      hufflepuff: "/assets/hufflepuff.png",
+    };
+    const crest = new Image();
+    crest.src = crestImages[house.toLowerCase()] || "";
+    template.onload = () => {
+    ctx.drawImage(template, 0, 0, canvas.width, canvas.height);
+
+    // Load crest after template
+    crest.onload = () => {
+      // Draw crest (adjust size & position as needed)
+      const crestSize = 180;
+      ctx.drawImage(
+        crest,
+        canvas.width / 2 - crestSize / 2,
+        250, // y-position (place under title area on certificate)
+        crestSize,
+        crestSize
+      );
 
     // Title
     ctx.fillStyle = "#d4af37";
@@ -151,4 +168,5 @@ export const ShareButton = ({ house, playerName, className }: ShareButtonProps) 
     </PopoverContent>
   </Popover>
 );
+
 };
