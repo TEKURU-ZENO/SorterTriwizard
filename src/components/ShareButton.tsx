@@ -60,7 +60,6 @@ export const ShareButton = ({ house, playerName, className }: ShareButtonProps) 
   };
 
   const generateCertificate = () => {
-    // Create a simple certificate image using canvas
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
@@ -68,129 +67,166 @@ export const ShareButton = ({ house, playerName, className }: ShareButtonProps) 
     canvas.width = 1200;
     canvas.height = 900;
 
-    // House colors for background gradients
-    const houseColors: Record<string, { primary: string; secondary: string; text: string }> = {
-      gryffindor: { primary: "#740001", secondary: "#ffc500", text: "#ffffff" },
-      slytherin: { primary: "#1a472a", secondary: "#aaaaaa", text: "#ffffff" },
-      ravenclaw: { primary: "#0e1a40", secondary: "#946b2d", text: "#ffffff" },
-      hufflepuff: { primary: "#ecb939", secondary: "#000000", text: "#000000" }
+    // Load the background image
+    const backgroundImg = new Image();
+    backgroundImg.crossOrigin = "anonymous";
+    
+    backgroundImg.onload = () => {
+      try {
+        // Draw the background image
+        ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
+
+        // Add a subtle overlay for house colors
+        const houseColors: Record<string, string> = {
+          gryffindor: "rgba(116, 0, 1, 0.1)",
+          slytherin: "rgba(26, 71, 42, 0.1)",
+          ravenclaw: "rgba(14, 26, 64, 0.1)",
+          hufflepuff: "rgba(236, 185, 57, 0.1)"
+        };
+
+        const houseOverlay = houseColors[house.toLowerCase()] || houseColors.gryffindor;
+        ctx.fillStyle = houseOverlay;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Load medieval/gothic fonts
+        const primaryFont = "bold 48px 'Cinzel', 'Trajan Pro', 'Times New Roman', serif";
+        const secondaryFont = "bold 36px 'Cinzel', 'Trajan Pro', 'Times New Roman', serif";
+        const bodyFont = "28px 'Cinzel', 'Crimson Text', 'Times New Roman', serif";
+        const nameFont = "bold 52px 'Cinzel Decorative', 'Cinzel', 'Times New Roman', serif";
+        const houseFont = "bold 64px 'Cinzel Decorative', 'Cinzel', 'Times New Roman', serif";
+
+        // Add text shadow function for better readability
+        const addTextShadow = (text: string, x: number, y: number, font: string, fillColor: string, shadowColor: string = "rgba(0, 0, 0, 0.8)") => {
+          ctx.font = font;
+          ctx.textAlign = "center";
+          
+          // Draw shadow
+          ctx.fillStyle = shadowColor;
+          ctx.fillText(text, x + 3, y + 3);
+          
+          // Draw main text
+          ctx.fillStyle = fillColor;
+          ctx.fillText(text, x, y);
+        };
+
+        // Title - Hogwarts School
+        addTextShadow("HOGWARTS SCHOOL", canvas.width / 2, 180, primaryFont, "#d4af37");
+        addTextShadow("OF WITCHCRAFT AND WIZARDRY", canvas.width / 2, 230, secondaryFont, "#d4af37");
+
+        // Decorative flourish (using Unicode characters for medieval feel)
+        ctx.fillStyle = "#d4af37";
+        ctx.font = "32px 'Cinzel Decorative', serif";
+        ctx.textAlign = "center";
+        ctx.fillText("❦ ◆ ❦", canvas.width / 2, 270);
+
+        // Certificate text
+        addTextShadow("This is to certify that", canvas.width / 2, 350, bodyFont, "#2c1810");
+        
+        // Player name with decorative emphasis
+        addTextShadow(playerName.toUpperCase(), canvas.width / 2, 420, nameFont, "#8b0000", "rgba(212, 175, 55, 0.3)");
+        
+        // More certificate text
+        addTextShadow("has been sorted into the noble house of", canvas.width / 2, 480, bodyFont, "#2c1810");
+        
+        // House name with special treatment
+        const houseTextColors: Record<string, string> = {
+          gryffindor: "#740001",
+          slytherin: "#1a472a", 
+          ravenclaw: "#0e1a40",
+          hufflepuff: "#ecb939"
+        };
+        
+        const houseColor = houseTextColors[house.toLowerCase()] || "#740001";
+        
+        // Add stroke to house name for dramatic effect
+        ctx.font = houseFont;
+        ctx.textAlign = "center";
+        ctx.strokeStyle = "#d4af37";
+        ctx.lineWidth = 3;
+        ctx.strokeText(house.toUpperCase(), canvas.width / 2, 560);
+        
+        addTextShadow(house.toUpperCase(), canvas.width / 2, 560, houseFont, houseColor);
+
+        // Add house motto/description
+        const houseMottos: Record<string, string> = {
+          gryffindor: "Where dwell the brave at heart",
+          slytherin: "Where cunning folk use any means to achieve their ends",
+          ravenclaw: "Where those of wit and learning will always find their kind", 
+          hufflepuff: "Where they are just and loyal, those patient Hufflepuffs are true"
+        };
+
+        const motto = houseMottos[house.toLowerCase()] || "";
+        addTextShadow(`"${motto}"`, canvas.width / 2, 620, "italic 24px 'Cinzel', serif", "#4a4a4a");
+
+        // Decorative element
+        ctx.fillStyle = "#d4af37";
+        ctx.font = "24px 'Cinzel Decorative', serif";
+        ctx.textAlign = "center";
+        ctx.fillText("✦ ✧ ✦", canvas.width / 2, 660);
+
+        // Date with medieval styling
+        const currentDate = new Date().toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+        });
+        addTextShadow(`Anno Domini ${currentDate}`, canvas.width / 2, 720, "22px 'Cinzel', serif", "#2c1810");
+
+        // Signature section with flourish
+        ctx.strokeStyle = "#8b4513";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(canvas.width / 2 - 200, 780);
+        ctx.lineTo(canvas.width / 2 + 200, 780);
+        ctx.stroke();
+
+        // Add decorative ends to signature line
+        ctx.fillStyle = "#d4af37";
+        ctx.font = "16px serif";
+        ctx.textAlign = "left";
+        ctx.fillText("❦", canvas.width / 2 - 210, 785);
+        ctx.textAlign = "right";
+        ctx.fillText("❦", canvas.width / 2 + 210, 785);
+
+        addTextShadow("Professor Minerva McGonagall", canvas.width / 2, 810, "20px 'Cinzel', serif", "#2c1810");
+        addTextShadow("Deputy Headmistress & Head of Gryffindor House", canvas.width / 2, 835, "16px 'Cinzel', serif", "#666666");
+
+        // Download the certificate
+        const link = document.createElement("a");
+        link.download = `${playerName.replace(/[^a-zA-Z0-9]/g, '_')}-${house}-certificate.png`;
+        link.href = canvas.toDataURL("image/png", 1.0);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        toast({
+          title: "Certificate downloaded!",
+          description: "Your magical certificate is ready to share.",
+        });
+      } catch (error) {
+        console.error("Certificate generation error:", error);
+        toast({
+          title: "Download failed",
+          description: "There was an error generating your certificate.",
+          variant: "destructive",
+        });
+      }
+      
+      setIsOpen(false);
     };
 
-    const currentHouse = houseColors[house.toLowerCase()] || houseColors.gryffindor;
-
-    // Create background gradient
-    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-    gradient.addColorStop(0, currentHouse.primary);
-    gradient.addColorStop(1, currentHouse.secondary);
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // Add decorative border
-    ctx.strokeStyle = "#d4af37";
-    ctx.lineWidth = 10;
-    ctx.strokeRect(50, 50, canvas.width - 100, canvas.height - 100);
-
-    // Inner border
-    ctx.strokeStyle = currentHouse.primary;
-    ctx.lineWidth = 5;
-    ctx.strokeRect(70, 70, canvas.width - 140, canvas.height - 140);
-
-    // Title
-    ctx.fillStyle = "#d4af37";
-    ctx.font = "bold 48px serif";
-    ctx.textAlign = "center";
-    ctx.fillText("HOGWARTS SCHOOL", canvas.width / 2, 180);
-    
-    ctx.font = "bold 36px serif";
-    ctx.fillText("OF WITCHCRAFT AND WIZARDRY", canvas.width / 2, 230);
-
-    // Decorative line
-    ctx.strokeStyle = "#d4af37";
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(300, 260);
-    ctx.lineTo(900, 260);
-    ctx.stroke();
-
-    // Certificate text
-    ctx.fillStyle = currentHouse.text;
-    ctx.font = "28px serif";
-    ctx.fillText("This is to certify that", canvas.width / 2, 340);
-    
-    // Player name with emphasis
-    ctx.font = "bold 42px serif";
-    ctx.fillStyle = "#d4af37";
-    ctx.fillText(playerName.toUpperCase(), canvas.width / 2, 400);
-    
-    // More certificate text
-    ctx.fillStyle = currentHouse.text;
-    ctx.font = "28px serif";
-    ctx.fillText("has been sorted into", canvas.width / 2, 460);
-    
-    // House name
-    ctx.font = "bold 56px serif";
-    ctx.fillStyle = "#d4af37";
-    ctx.strokeStyle = currentHouse.primary;
-    ctx.lineWidth = 2;
-    ctx.strokeText(house.toUpperCase(), canvas.width / 2, 540);
-    ctx.fillText(house.toUpperCase(), canvas.width / 2, 540);
-
-    // Add house motto/description
-    const houseMottos: Record<string, string> = {
-      gryffindor: "Where dwell the brave at heart",
-      slytherin: "Where cunning folk use any means",
-      ravenclaw: "Where those of wit and learning will find their kind",
-      hufflepuff: "Where they are just and loyal"
-    };
-
-    ctx.fillStyle = currentHouse.text;
-    ctx.font = "italic 24px serif";
-    ctx.fillText(`"${houseMottos[house.toLowerCase()] || ""}"`, canvas.width / 2, 600);
-
-    // Date
-    const currentDate = new Date().toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
-    });
-    ctx.font = "20px serif";
-    ctx.fillText(`Sorted on ${currentDate}`, canvas.width / 2, 700);
-
-    // Signature line
-    ctx.strokeStyle = currentHouse.text;
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(canvas.width / 2 - 150, 780);
-    ctx.lineTo(canvas.width / 2 + 150, 780);
-    ctx.stroke();
-
-    ctx.font = "18px serif";
-    ctx.fillText("Professor McGonagall", canvas.width / 2, 800);
-    ctx.font = "16px serif";
-    ctx.fillText("Deputy Headmistress", canvas.width / 2, 820);
-
-    // Try to download immediately since we're not using external images
-    try {
-      const link = document.createElement("a");
-      link.download = `${playerName.replace(/[^a-zA-Z0-9]/g, '_')}-${house}-certificate.png`;
-      link.href = canvas.toDataURL("image/png", 1.0);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
+    backgroundImg.onerror = () => {
+      console.error("Failed to load background image");
       toast({
-        title: "Certificate downloaded!",
-        description: "Your magical certificate is ready to share.",
-      });
-    } catch (error) {
-      toast({
-        title: "Download failed",
-        description: "There was an error generating your certificate.",
+        title: "Image loading failed",
+        description: "Could not load the certificate background. Please try again.",
         variant: "destructive",
       });
-    }
-    
-    setIsOpen(false);
+      setIsOpen(false);
+    };
+
+    // Set the source to your background image
+    backgroundImg.src = "/assets/certificatesorter.jpg"; // Adjust path as needed
   };
 
   return (
